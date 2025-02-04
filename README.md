@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 - [Bun](https://bun.sh) - The JavaScript runtime (for package management)
 - [Next.js](https://nextjs.org) - The React Framework
-- [Auth.js](https://https://authjs.dev) - Authentication
+- [Better Auth](https://better-auth.vercel.app) - Authentication
 - [TypeScript](https://www.typescriptlang.org) - The TypeScript
 - [Drizzle ORM](https://www.drizzle-orm.com) - The database ORM
 - [PostgreSQL](https://www.postgresql.org) - The database

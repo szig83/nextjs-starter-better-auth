@@ -9,9 +9,7 @@ export default function LoginButton() {
 
 	return (
 		<>
-			{isSignInPage ? (
-				<>Bejelentkezés</>
-			) : (
+			{!isSignInPage && (
 				<Link href="/sign-in" scroll={false}>
 					Bejelentkezés
 				</Link>

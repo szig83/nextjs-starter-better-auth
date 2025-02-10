@@ -10,8 +10,14 @@ export default function LogoutButton({
 	const router = useRouter()
 
 	const handleLogout = async () => {
-		await authClient.signOut()
-		router.push(redirectTo)
+		await authClient.signOut({
+			fetchOptions: {
+				onSuccess: () => {
+					router.push(redirectTo)
+					router.refresh()
+				},
+			},
+		})
 	}
 
 	return <div onClick={handleLogout}>{children ?? 'Kilépés'}</div>

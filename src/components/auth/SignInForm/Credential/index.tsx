@@ -69,10 +69,10 @@ export const EyeFilledIcon = (props: React.SVGProps<SVGSVGElement>) => {
 }
 
 export default function SignInCredential({
-	isModal = false,
+	isInterceptingModal = false,
 	signInButtonLabel = 'Belépés',
 	redirectTo = '/',
-}: Readonly<{ isModal?: boolean; signInButtonLabel?: string; redirectTo?: string }>) {
+}: Readonly<{ isInterceptingModal?: boolean; signInButtonLabel?: string; redirectTo?: string }>) {
 	const [signInError, setSignInError] = useState<string | null>(null)
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [email, setEmail] = useState('')
@@ -93,7 +93,7 @@ export default function SignInCredential({
 			},
 			{
 				onSuccess() {
-					if (isModal) {
+					if (isInterceptingModal) {
 						window.history.back()
 						setTimeout(() => {
 							router.refresh()

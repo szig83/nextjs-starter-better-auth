@@ -1,29 +1,23 @@
 'use client'
 
-import { Divider } from '@heroui/react'
+//import { Divider } from '@heroui/react'
+import { DividerWithText } from '@/components/DividerWithText'
 
 import Credential from './Credential'
 import Social from './Social'
-import Link from 'next/link'
 
 export default function SignInForm({
-	isModal,
+	isInterceptingModal,
 	isAdminPlace = false,
 	redirectTo = '/',
-}: Readonly<{ isModal?: boolean; isAdminPlace?: boolean; redirectTo?: string }>) {
+}: Readonly<{ isInterceptingModal?: boolean; isAdminPlace?: boolean; redirectTo?: string }>) {
 	return (
 		<>
-			<Credential isModal={isModal} redirectTo={redirectTo} />
+			<Credential isInterceptingModal={isInterceptingModal} redirectTo={redirectTo} />
 			{!isAdminPlace && (
 				<>
-					<Divider />
+					<DividerWithText text="vagy" />
 					<Social />
-					<p className="text-muted-foreground flex items-center justify-center gap-1 text-xs">
-						Nincs más fiókja?
-						<Link href="/sign-up" className="text-primary" scroll={false}>
-							Hozzon létre egyet!
-						</Link>
-					</p>
 				</>
 			)}
 		</>

@@ -1,14 +1,21 @@
 import LoginForm from '@/components/auth/SignInForm'
+import Modal from '@/components/Modal'
+import Link from 'next/link'
 
 export default function SignInPage() {
 	return (
-		<>
-			<div className="flex h-full w-full flex-col items-center justify-center">
-				<div className="w-full max-w-xs rounded-lg p-3 shadow-xl">
-					<h2 className="mb-4 text-center text-2xl font-bold">Bejelentkezés</h2>
-					<LoginForm />
+		<Modal
+			modalTitle="Bejelentkezés"
+			modalFooter={
+				<div className="text-muted-foreground flex items-center justify-center gap-1 text-xs">
+					Nincs még fiókja?
+					<Link href="/sign-up" className="text-primary" scroll={false}>
+						Hozzon létre egyet!
+					</Link>
 				</div>
-			</div>
-		</>
+			}
+		>
+			<LoginForm />
+		</Modal>
 	)
 }

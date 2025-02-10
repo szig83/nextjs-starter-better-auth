@@ -1,21 +1,5 @@
-import Modal from '@/components/CustomModal'
-import LoginForm from '@/components/auth/SignInForm'
-import Link from 'next/link'
+import SignInForm from '@/components/auth/SignInForm'
 
-export default async function LoginFormModal() {
-	return (
-		<Modal
-			modalTitle="Bejelentkezés"
-			modalFooter={
-				<div className="text-muted-foreground flex items-center justify-center gap-1 text-xs">
-					Nincs még fiókja?
-					<Link href="/sign-up" className="text-primary" scroll={false}>
-						Hozzon létre egyet!
-					</Link>
-				</div>
-			}
-		>
-			<LoginForm isInterceptingModal={true} />
-		</Modal>
-	)
+export default async function SignInPageIntercept() {
+	return <SignInForm isInterceptingModal={true} />
 }

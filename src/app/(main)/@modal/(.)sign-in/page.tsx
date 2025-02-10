@@ -1,4 +1,4 @@
-import Modal from '@/components/Modal'
+import Modal from '@/components/CustomModal'
 import LoginForm from '@/components/auth/SignInForm'
 import Link from 'next/link'
 

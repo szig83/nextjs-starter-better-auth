@@ -1,4 +1,4 @@
-import Modal from '@/components/Modal'
+import Modal from '@/components/CustomModal'
 
 export default async function SignUpFormModal() {
 	console.log('SugnUpFormModal')

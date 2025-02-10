@@ -1,5 +1,5 @@
 import LoginForm from '@/components/auth/SignInForm'
-import Modal from '@/components/Modal'
+import Modal from '@/components/CustomModal'
 import Link from 'next/link'
 
 export default function SignInPage() {

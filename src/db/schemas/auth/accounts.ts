@@ -1,4 +1,4 @@
-import { text, primaryKey, integer, uuid, timestamp } from 'drizzle-orm/pg-core'
+import { text, uuid, timestamp } from 'drizzle-orm/pg-core'
 import { authSchema as schema } from './_schema'
 import { users } from './users'
 

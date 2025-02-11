@@ -1,7 +1,7 @@
 //'use client'
 
-import { headers } from 'next/headers'
-import { auth } from '@/lib/auth'
+//import { headers } from 'next/headers'
+//import { auth } from '@/lib/auth'
 
 //import { usersList, getUserData } from '@/db/queries/users'
 

@@ -1,7 +1,10 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { Session } from 'next-auth'
+
+import { auth } from '@/lib/auth'
 import { ALL_ROUTES as ROUTES } from '@/lib/routes'
+
+type Session = typeof auth.$Infer.Session
 
 /**
  * Adminisztracios (zart) oldalaknal hasznalt utvonal vedelem

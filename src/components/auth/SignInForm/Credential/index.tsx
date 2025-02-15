@@ -3,7 +3,7 @@
 import { Input } from '@heroui/react'
 import { useRef } from 'react'
 
-import { authClient } from '@/lib/auth-client'
+import { authClient } from '@/lib/auth/client'
 import { useRouter } from 'next/navigation'
 import { Button } from '@heroui/button'
 import { useState } from 'react'

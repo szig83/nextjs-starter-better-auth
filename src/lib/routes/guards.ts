@@ -82,7 +82,7 @@ const mainGuard = (request: NextRequest, session: Session | null) => {
 	 * akkor automatikusan a nyito oldalra kerul.
 	 */
 	if (isProtectedRoute && !isAuthenticated) {
-		return NextResponse.redirect(new URL(routes.root, request.url))
+		return NextResponse.redirect(new URL(routes.signIn, request.url))
 	}
 
 	/**
@@ -108,7 +108,7 @@ const mainGuard = (request: NextRequest, session: Session | null) => {
  * @returns A NextResponse objektum
  */
 const apiGuard = (request: NextRequest, session: Session | null) => {
-	console.log('apiGuard')
+	console.log('apiGuard', request.nextUrl.pathname)
 
 	const routes = ROUTES.api
 	const isAuthenticated = !!session?.user
@@ -165,11 +165,11 @@ const allGuard = (request: NextRequest, session: Session | null) => {
  * @param session A session objektum
  * @returns A NextResponse objektum
  */
-const routeGuard = {
+const routeGuards = {
 	admin: adminGuard,
 	main: mainGuard,
 	api: apiGuard,
 	all: allGuard,
 }
 
-export default routeGuard
+export default routeGuards

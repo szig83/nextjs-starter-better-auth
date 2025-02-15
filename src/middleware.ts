@@ -1,7 +1,8 @@
 import { NextRequest } from 'next/server'
 import { auth } from '@/lib/auth'
 import { betterFetch } from '@better-fetch/fetch'
-import routeGuard from '@/lib/routeGuard'
+import routeGuards from '@/lib/routes/guards'
+import { NextResponse } from 'next/server'
 
 type Session = typeof auth.$Infer.Session
 
@@ -14,32 +15,28 @@ type Session = typeof auth.$Infer.Session
  * @returns A NextResponse objektum
  */
 export async function middleware(request: NextRequest) {
-	//let session: Session | null = null
+	if (!request.nextUrl.pathname.startsWith('/get-session')) {
+		const { data: session } = await betterFetch<Session>('/api/auth/get-session', {
+			baseURL: request.nextUrl.origin,
+			query: {
+				//disableCookieCache: true,
+				//disableRefresh: true,
+			},
+			headers: {
+				cookie: request.headers.get('cookie') || '',
+			},
+		})
 
-	//if (request.headers.get('cookie')?.includes('app.session_token=')) {
-	console.log(request.headers.get('cookie'))
-	const { data: session } = await betterFetch<Session>('/api/auth/get-session', {
-		baseURL: request.nextUrl.origin,
-		headers: {
-			cookie: request.headers.get('cookie') || '',
-		},
-	})
+		if (!session) {
+		}
 
-	//console.log(data)
-
-	//session = data
-
-	if (!session) {
-		//const response = NextResponse.redirect(new URL('/sign-in', request.nextUrl))
-		//response.cookies.delete('app.session_token')
-		//return response
+		/**
+		 * Utvonal vedelem
+		 */
+		return routeGuards.all(request, session)
+	} else {
+		return NextResponse.next()
 	}
-	//}
-
-	/**
-	 * Utvonal vedelem
-	 */
-	return routeGuard.all(request, session)
 }
 
 /**

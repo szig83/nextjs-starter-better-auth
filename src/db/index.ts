@@ -3,12 +3,15 @@ import postgres from 'postgres'
 
 import { env } from '@/lib/env'
 
-import * as schema from './schemas/index'
+import * as schema from './schemas'
 
-export const client = postgres(env.DATABASE_URL, {
+const client = postgres(env.DATABASE_URL, {
 	max: env.DB_MIGRATING ? 1 : undefined,
 })
 const db = drizzle(client, {
 	schema,
 })
+
 export default db
+export { client }
+export type DB = typeof db

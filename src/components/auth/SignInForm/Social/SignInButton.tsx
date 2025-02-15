@@ -1,7 +1,7 @@
-import { SocialProvider } from '@/lib/types/auth'
+import { type SocialProvider } from '@/lib/auth'
 import { capitalizeFirstLetter } from '@/lib/utils/common'
 import { Button } from '@heroui/react'
-import { authClient } from '@/lib/auth-client'
+import { authClient } from '@/lib/auth/client'
 
 export default function SignInSocialButton({
 	children,

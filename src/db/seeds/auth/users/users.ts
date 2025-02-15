@@ -51,7 +51,7 @@ const updateUserAndAssignGroup = async (db: DB, userId: string, groupId: string)
  * @returns {Promise<{ user?: { id: string } }>} A signUpEmail hívás eredménye.
  */
 const addSysAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } }> => {
-	const result = await auth.api.signUpEmail({
+	const { user } = await auth.api.signUpEmail({
 		body: {
 			name: seedConfig.users.sysadmin.name,
 			email: seedConfig.users.sysadmin.email,
@@ -59,11 +59,11 @@ const addSysAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } 
 		},
 	})
 
-	if (result.user) {
-		await updateUserAndAssignGroup(db, result.user.id, seedConfig.users.sysadmin.groupId)
+	if (user) {
+		await updateUserAndAssignGroup(db, user.id, seedConfig.users.sysadmin.groupId)
 	}
 
-	return result
+	return { user }
 }
 
 /**
@@ -75,7 +75,7 @@ const addSysAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } 
  * @returns {Promise<{ user?: { id: string } }>} A signUpEmail hívás eredménye.
  */
 const addAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } }> => {
-	const result = await auth.api.signUpEmail({
+	const { user } = await auth.api.signUpEmail({
 		body: {
 			name: seedConfig.users.admin.name,
 			email: seedConfig.users.admin.email,
@@ -83,11 +83,11 @@ const addAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } }> 
 		},
 	})
 
-	if (result.user) {
-		await updateUserAndAssignGroup(db, result.user.id, seedConfig.users.admin.groupId)
+	if (user) {
+		await updateUserAndAssignGroup(db, user.id, seedConfig.users.admin.groupId)
 	}
 
-	return result
+	return { user }
 }
 
 /**
@@ -99,7 +99,7 @@ const addAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } }> 
  * @returns {Promise<{ user?: { id: string } }>} A signUpEmail hívás eredménye.
  */
 const addContentEditor = async (auth: Auth, db: DB): Promise<{ user?: { id: string } }> => {
-	const result = await auth.api.signUpEmail({
+	const { user } = await auth.api.signUpEmail({
 		body: {
 			name: seedConfig.users.content_editor.name,
 			email: seedConfig.users.content_editor.email,
@@ -107,11 +107,11 @@ const addContentEditor = async (auth: Auth, db: DB): Promise<{ user?: { id: stri
 		},
 	})
 
-	if (result.user) {
-		await updateUserAndAssignGroup(db, result.user.id, seedConfig.users.content_editor.groupId)
+	if (user) {
+		await updateUserAndAssignGroup(db, user.id, seedConfig.users.content_editor.groupId)
 	}
 
-	return result
+	return { user }
 }
 
 /**
@@ -126,17 +126,17 @@ const addContentEditor = async (auth: Auth, db: DB): Promise<{ user?: { id: stri
 const addPublicUser = async (
 	auth: Auth,
 	db: DB,
-	user: mockUser,
+	mockUser: mockUser,
 ): Promise<{ user?: { id: string } }> => {
-	const result = await auth.api.signUpEmail({
-		body: user,
+	const { user } = await auth.api.signUpEmail({
+		body: mockUser,
 	})
 
-	if (result.user) {
-		await updateUserAndAssignGroup(db, result.user.id, seedConfig.users.public_user.groupId)
+	if (user) {
+		await updateUserAndAssignGroup(db, user.id, seedConfig.users.public_user.groupId)
 	}
 
-	return result
+	return { user }
 }
 
 /**

@@ -10,6 +10,10 @@ export { verifications } from './authentication/verifications'
 // Groups
 export * from './groups/groups'
 export * from './groups/user_groups'
+export {
+	groupPermissions,
+	relations as groupPermissionsRelations,
+} from './groups/group_permissions'
 
 // Permissions
 export { permissions, relations as permissionsRelations } from './permissions/permissions'

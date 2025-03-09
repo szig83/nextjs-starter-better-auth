@@ -1,4 +1,4 @@
-import { uuid, timestamp, primaryKey } from 'drizzle-orm/pg-core'
+import { integer, uuid, timestamp, primaryKey } from 'drizzle-orm/pg-core'
 import { relations as drizzleRelations } from 'drizzle-orm'
 import { users } from '../users/users'
 import { roles } from './roles'
@@ -7,8 +7,8 @@ import { authSchema as schema } from '../schema'
 const userRoles = schema.table(
 	'user_roles',
 	{
-		userId: uuid('user_id').references(() => users.id),
-		roleId: uuid('role_id').references(() => roles.id),
+		userId: integer('user_id').references(() => users.id),
+		roleId: integer('role_id').references(() => roles.id),
 		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 	},
 	(table) => [primaryKey({ columns: [table.userId, table.roleId] })],

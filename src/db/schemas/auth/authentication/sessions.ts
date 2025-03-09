@@ -1,11 +1,11 @@
-import { uuid, varchar, timestamp } from 'drizzle-orm/pg-core'
+import { serial, integer, varchar, timestamp } from 'drizzle-orm/pg-core'
 import { relations as drizzleRelations } from 'drizzle-orm'
 import { users } from '../users/users'
 import { authSchema as schema } from '../schema'
 
 const sessions = schema.table('sessions', {
-	id: uuid('id').primaryKey().defaultRandom(),
-	userId: uuid('user_id')
+	id: serial('id').primaryKey(),
+	userId: integer('user_id')
 		.notNull()
 		.references(() => users.id),
 	token: varchar('token', { length: 255 }).notNull().unique(),

@@ -1,4 +1,4 @@
-import { uuid, timestamp, primaryKey } from 'drizzle-orm/pg-core'
+import { integer, timestamp, primaryKey } from 'drizzle-orm/pg-core'
 import { relations as drizzleRelations, InferSelectModel } from 'drizzle-orm'
 import { users } from '../users/users'
 import { groups } from './groups'
@@ -10,8 +10,8 @@ import { z } from 'zod'
 const userGroups = schema.table(
 	'user_groups',
 	{
-		userId: uuid('user_id').references(() => users.id),
-		groupId: uuid('group_id').references(() => groups.id),
+		userId: integer('user_id').references(() => users.id),
+		groupId: integer('group_id').references(() => groups.id),
 		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 	},
 	(table) => [primaryKey({ columns: [table.userId, table.groupId] })],

@@ -1,4 +1,4 @@
-import { uuid, varchar, boolean, timestamp } from 'drizzle-orm/pg-core'
+import { uuid, varchar, boolean, timestamp, serial } from 'drizzle-orm/pg-core'
 import { relations as drizzleRelations, InferSelectModel } from 'drizzle-orm'
 import { accounts } from '../authentication/accounts'
 import { sessions } from '../authentication/sessions'
@@ -13,7 +13,7 @@ import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 const users = schema.table('users', {
-	id: uuid('id').primaryKey().defaultRandom(),
+	id: serial('id').primaryKey(),
 	name: varchar('full_name', { length: 100 }).notNull(),
 	email: varchar('email', { length: 255 }).notNull().unique(),
 	emailVerified: boolean('email_verified').default(false),

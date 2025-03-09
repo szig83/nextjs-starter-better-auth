@@ -1,6 +1,6 @@
 CREATE TABLE "auth"."accounts" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"user_id" uuid NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
+	"user_id" integer NOT NULL,
 	"provider_account_id" text NOT NULL,
 	"provider_id" text NOT NULL,
 	"access_token" text,
@@ -19,11 +19,11 @@ CREATE TABLE "auth"."accounts" (
 );
 --> statement-breakpoint
 CREATE TABLE "auth"."audit_logs" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"user_id" uuid,
+	"id" serial PRIMARY KEY NOT NULL,
+	"user_id" integer,
 	"event_type" varchar(50) NOT NULL,
 	"resource_type" varchar(50),
-	"resource_id" uuid,
+	"resource_id" integer,
 	"old_values" jsonb,
 	"new_values" jsonb,
 	"ip_address" "inet",
@@ -31,26 +31,17 @@ CREATE TABLE "auth"."audit_logs" (
 	"created_at" timestamp with time zone DEFAULT now()
 );
 --> statement-breakpoint
-CREATE TABLE "auth"."groups" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"name" varchar(50) NOT NULL,
-	"description" text,
-	"created_at" timestamp with time zone DEFAULT now(),
-	"updated_at" timestamp with time zone DEFAULT now(),
-	CONSTRAINT "groups_name_unique" UNIQUE("name")
-);
---> statement-breakpoint
 CREATE TABLE "auth"."permissions" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"name" varchar(100) NOT NULL,
 	"description" text,
-	"resource_id" uuid,
+	"resource_id" integer,
 	"created_at" timestamp with time zone DEFAULT now(),
 	CONSTRAINT "permissions_name_unique" UNIQUE("name")
 );
 --> statement-breakpoint
 CREATE TABLE "auth"."providers" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"name" varchar(50) NOT NULL,
 	"enabled" boolean DEFAULT true,
 	"config" jsonb,
@@ -60,7 +51,7 @@ CREATE TABLE "auth"."providers" (
 );
 --> statement-breakpoint
 CREATE TABLE "auth"."resources" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"name" varchar(100) NOT NULL,
 	"description" text,
 	"created_at" timestamp with time zone DEFAULT now(),
@@ -68,14 +59,14 @@ CREATE TABLE "auth"."resources" (
 );
 --> statement-breakpoint
 CREATE TABLE "auth"."role_permissions" (
-	"role_id" uuid,
-	"permission_id" uuid,
+	"role_id" serial NOT NULL,
+	"permission_id" integer,
 	"created_at" timestamp with time zone DEFAULT now(),
 	CONSTRAINT "role_permissions_role_id_permission_id_pk" PRIMARY KEY("role_id","permission_id")
 );
 --> statement-breakpoint
 CREATE TABLE "auth"."roles" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"name" varchar(50) NOT NULL,
 	"description" text,
 	"created_at" timestamp with time zone DEFAULT now(),
@@ -85,7 +76,7 @@ CREATE TABLE "auth"."roles" (
 --> statement-breakpoint
 CREATE TABLE "auth"."sessions" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"user_id" uuid NOT NULL,
+	"user_id" integer NOT NULL,
 	"token" varchar(255) NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL,
 	"ip_address" varchar(255),
@@ -95,22 +86,15 @@ CREATE TABLE "auth"."sessions" (
 	CONSTRAINT "sessions_token_unique" UNIQUE("token")
 );
 --> statement-breakpoint
-CREATE TABLE "auth"."user_groups" (
-	"user_id" uuid,
-	"group_id" uuid,
-	"created_at" timestamp with time zone DEFAULT now(),
-	CONSTRAINT "user_groups_user_id_group_id_pk" PRIMARY KEY("user_id","group_id")
-);
---> statement-breakpoint
 CREATE TABLE "auth"."user_roles" (
-	"user_id" uuid,
-	"role_id" uuid,
+	"user_id" integer,
+	"role_id" integer,
 	"created_at" timestamp with time zone DEFAULT now(),
 	CONSTRAINT "user_roles_user_id_role_id_pk" PRIMARY KEY("user_id","role_id")
 );
 --> statement-breakpoint
 CREATE TABLE "auth"."verifications" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"identifier" varchar(255) NOT NULL,
 	"value" varchar(255) NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL,
@@ -118,8 +102,24 @@ CREATE TABLE "auth"."verifications" (
 	"updated_at" timestamp with time zone DEFAULT now()
 );
 --> statement-breakpoint
+CREATE TABLE "auth"."groups" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" varchar(50) NOT NULL,
+	"description" text,
+	"created_at" timestamp with time zone DEFAULT now(),
+	"updated_at" timestamp with time zone DEFAULT now(),
+	CONSTRAINT "groups_name_unique" UNIQUE("name")
+);
+--> statement-breakpoint
+CREATE TABLE "auth"."user_groups" (
+	"user_id" integer,
+	"group_id" integer,
+	"created_at" timestamp with time zone DEFAULT now(),
+	CONSTRAINT "user_groups_user_id_group_id_pk" PRIMARY KEY("user_id","group_id")
+);
+--> statement-breakpoint
 CREATE TABLE "auth"."users" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"full_name" varchar(100) NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"email_verified" boolean DEFAULT false,
@@ -138,7 +138,7 @@ ALTER TABLE "auth"."permissions" ADD CONSTRAINT "permissions_resource_id_resourc
 ALTER TABLE "auth"."role_permissions" ADD CONSTRAINT "role_permissions_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "auth"."roles"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "auth"."role_permissions" ADD CONSTRAINT "role_permissions_permission_id_permissions_id_fk" FOREIGN KEY ("permission_id") REFERENCES "auth"."permissions"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "auth"."sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "auth"."user_groups" ADD CONSTRAINT "user_groups_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "auth"."user_groups" ADD CONSTRAINT "user_groups_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "auth"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "auth"."user_roles" ADD CONSTRAINT "user_roles_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "auth"."user_roles" ADD CONSTRAINT "user_roles_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "auth"."roles"("id") ON DELETE no action ON UPDATE no action;
+ALTER TABLE "auth"."user_roles" ADD CONSTRAINT "user_roles_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "auth"."roles"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "auth"."user_groups" ADD CONSTRAINT "user_groups_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "auth"."user_groups" ADD CONSTRAINT "user_groups_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "auth"."groups"("id") ON DELETE no action ON UPDATE no action;

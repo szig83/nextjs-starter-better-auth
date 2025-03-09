@@ -1,10 +1,10 @@
-import { uuid, varchar, boolean, timestamp, jsonb } from 'drizzle-orm/pg-core'
+import { serial, varchar, boolean, timestamp, jsonb } from 'drizzle-orm/pg-core'
 import { relations as drizzleRelations } from 'drizzle-orm'
 import { accounts } from './accounts'
 import { authSchema as schema } from '../schema'
 
 const providers = schema.table('providers', {
-	id: uuid('id').primaryKey().defaultRandom(),
+	id: serial('id').primaryKey(),
 	name: varchar('name', { length: 50 }).notNull().unique(),
 	enabled: boolean('enabled').default(true),
 	config: jsonb('config'),

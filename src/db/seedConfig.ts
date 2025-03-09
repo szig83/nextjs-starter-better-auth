@@ -1,27 +1,27 @@
 export const groups = {
-	public_user: {
-		id: 'f442e8cf-727c-40b2-8e0b-9d4a55611605',
-		name: 'Általános felhasználó',
+	sysadmin: {
+		id: 1,
+		name: 'Rendszergazda',
 		description:
-			'Alapszintű hozzáférőssel rendelkező felhasználók, akik bejelentkezés után használhatják az oldal publikus funkcióit',
-	},
-	content_editor: {
-		id: '3b8a2b8a-8a2b-8a2b-8a2b-8a2b8a2b8a2b',
-		name: 'Tartalomszerkesztő',
-		description:
-			'A publikus oldal tartalmainak kezelésére jogosult felhasználók, akik új tartalmakat hozhatnak létre és szerkeszthetik a meglévőket',
+			'Korlátlan jogosultsággal rendelkező felhasználók, akik a teljes rendszert felügyelik és karbantartják',
 	},
 	admin: {
-		id: '9b4f4d3e-0e67-4f6f-8e8e-6d6d6d6d6d6d',
+		id: 2,
 		name: 'Adminisztrátor',
 		description:
 			'Teljes hozzáférőssel rendelkező felhasználók, akik kezelhetik a felhasználókat és minden adminisztrációs funkciót elérnek',
 	},
-	sysadmin: {
-		id: '7305e4bf-80aa-4624-a427-232bee5b20ea',
-		name: 'Rendszergazda',
+	content_editor: {
+		id: 3,
+		name: 'Tartalomszerkesztő',
 		description:
-			'Korlátlan jogosultsággal rendelkező felhasználók, akik a teljes rendszert felügyelik és karbantartják',
+			'A publikus oldal tartalmainak kezelésére jogosult felhasználók, akik új tartalmakat hozhatnak létre és szerkeszthetik a meglévőket',
+	},
+	public_user: {
+		id: 4,
+		name: 'Általános felhasználó',
+		description:
+			'Alapszintű hozzáférőssel rendelkező felhasználók, akik bejelentkezés után használhatják az oldal publikus funkcióit',
 	},
 }
 

@@ -34,7 +34,7 @@ const mock = (): mockUser[] => {
  * @param userId - A frissítendő felhasználó azonosítója.
  * @param groupId - A csoport azonosítója, amelyhez a felhasználót hozzá kell rendelni.
  */
-const updateUserAndAssignGroup = async (db: DB, userId: string, groupId: string) => {
+const updateUserAndAssignGroup = async (db: DB, userId: number, groupId: number) => {
 	await db.update(users).set({ emailVerified: true }).where(eq(users.id, userId))
 	await db.insert(userGroups).values({
 		userId,
@@ -48,9 +48,9 @@ const updateUserAndAssignGroup = async (db: DB, userId: string, groupId: string)
  * @param auth - Az auth példány.
  * @param db - Az adatbázis példány.
  *
- * @returns {Promise<{ user?: { id: string } }>} A signUpEmail hívás eredménye.
+ * @returns {Promise<{ user?: { id: number } }>} A signUpEmail hívás eredménye.
  */
-const addSysAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } }> => {
+const addSysAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: number } }> => {
 	const { user } = await auth.api.signUpEmail({
 		body: {
 			name: seedConfig.users.sysadmin.name,
@@ -72,9 +72,9 @@ const addSysAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } 
  * @param auth - Az auth példány.
  * @param db - Az adatbázis példány.
  *
- * @returns {Promise<{ user?: { id: string } }>} A signUpEmail hívás eredménye.
+ * @returns {Promise<{ user?: { id: number } }>} A signUpEmail hívás eredménye.
  */
-const addAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } }> => {
+const addAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: number } }> => {
 	const { user } = await auth.api.signUpEmail({
 		body: {
 			name: seedConfig.users.admin.name,
@@ -96,9 +96,9 @@ const addAdmin = async (auth: Auth, db: DB): Promise<{ user?: { id: string } }> 
  * @param auth - Az auth példány.
  * @param db - Az adatbázis példány.
  *
- * @returns {Promise<{ user?: { id: string } }>} A signUpEmail hívás eredménye.
+ * @returns {Promise<{ user?: { id: number } }>} A signUpEmail hívás eredménye.
  */
-const addContentEditor = async (auth: Auth, db: DB): Promise<{ user?: { id: string } }> => {
+const addContentEditor = async (auth: Auth, db: DB): Promise<{ user?: { id: number } }> => {
 	const { user } = await auth.api.signUpEmail({
 		body: {
 			name: seedConfig.users.content_editor.name,
@@ -121,13 +121,13 @@ const addContentEditor = async (auth: Auth, db: DB): Promise<{ user?: { id: stri
  * @param db - Az adatbázis példány.
  * @param user - A létrehozandó mock felhasználó.
  *
- * @returns {Promise<{ user?: { id: string } }>} A signUpEmail hívás eredménye.
+ * @returns {Promise<{ user?: { id: number } }>} A signUpEmail hívás eredménye.
  */
 const addPublicUser = async (
 	auth: Auth,
 	db: DB,
 	mockUser: mockUser,
-): Promise<{ user?: { id: string } }> => {
+): Promise<{ user?: { id: number } }> => {
 	const { user } = await auth.api.signUpEmail({
 		body: mockUser,
 	})

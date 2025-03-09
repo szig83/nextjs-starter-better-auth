@@ -1,12 +1,12 @@
-import { uuid, varchar, timestamp, integer, boolean, text } from 'drizzle-orm/pg-core'
+import { serial, varchar, timestamp, integer, boolean, text } from 'drizzle-orm/pg-core'
 import { relations as drizzleRelations } from 'drizzle-orm'
 import { users } from '../users/users'
 import { providers } from './providers'
 import { authSchema as schema } from '../schema'
 
 const accounts = schema.table('accounts', {
-	id: uuid('id').primaryKey().defaultRandom(),
-	userId: uuid('user_id')
+	id: serial('id').primaryKey(),
+	userId: integer('user_id')
 		.notNull()
 		.references(() => users.id),
 	providerAccountId: text('provider_account_id').notNull(),

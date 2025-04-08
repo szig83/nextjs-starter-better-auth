@@ -1,6 +1,6 @@
-import db from '@/db'
+import db from '@/database'
 import { eq } from 'drizzle-orm'
-import { users } from '@/db/schemas'
+import { users } from '@/database/schemas'
 
 const usersList = await db.query.users.findMany()
 

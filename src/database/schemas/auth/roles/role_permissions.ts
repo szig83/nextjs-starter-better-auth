@@ -1,7 +1,7 @@
 import { serial, integer, timestamp, primaryKey } from 'drizzle-orm/pg-core'
 import { relations as drizzleRelations } from 'drizzle-orm'
 import { roles } from './roles'
-import { permissions } from '../permissions/permissions'
+import { permissions } from '@/database/schemas'
 import { authSchema as schema } from '../schema'
 
 const rolePermissions = schema.table(

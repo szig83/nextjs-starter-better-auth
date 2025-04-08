@@ -1,7 +1,7 @@
 import { type Auth } from '@/lib/auth'
-import { type DB } from '@/db'
-import { type UserSchema, users, userGroups } from '@/db/schemas'
-import { seedConfig } from '@/db/seedConfig'
+import { type DB } from '@/database'
+import { type UserSchema, users, userGroups } from '@/database/schemas'
+import { seedConfig } from '@/database/seedConfig'
 import { eq } from 'drizzle-orm'
 
 import { faker } from '@faker-js/faker'
@@ -108,7 +108,7 @@ const addContentEditor = async (auth: Auth, db: DB): Promise<{ user?: { id: numb
 	})
 
 	if (user) {
-		await updateUserAndAssignGroup(db, user.id, seedConfig.users.content_editor.groupId)
+		await updateUserAndAssignGroup(db, parseInt(user.id), seedConfig.users.content_editor.groupId)
 	}
 
 	return { user }
@@ -150,15 +150,16 @@ const addPublicUser = async (
  *
  * @param auth - Az auth példány.
  * @param db - Az adatbázis példány.
+ * @param publicUserCount - A létrehozandó nyilvános felhasználók száma.
  */
-export async function seed(auth: Auth, db: DB) {
+export async function seed(auth: Auth, db: DB, publicUserCount: number = 0) {
 	const sysAdminUser = await addSysAdmin(auth, db)
 
 	if (sysAdminUser.user) {
 		await addAdmin(auth, db)
 		await addContentEditor(auth, db)
 
-		if (seedConfig.users.count > 0) {
+		if (publicUserCount > 0) {
 			const mockUsers = mock()
 			for (const user of mockUsers) {
 				await addPublicUser(auth, db, user)

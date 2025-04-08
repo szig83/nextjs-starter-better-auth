@@ -1,4 +1,4 @@
-import { ZodError, z } from 'zod'
+import { z, ZodError } from 'zod'
 
 const envSchema = z.object({
 	NODE_ENV: z.enum(['development', 'production']),
@@ -24,7 +24,7 @@ type Env = z.infer<typeof envSchema>
 
 function validateEnv(): Env {
 	try {
-		const env = envSchema.parse({
+		return envSchema.parse({
 			NODE_ENV: process.env.NODE_ENV,
 			DB_HOST: process.env.DB_HOST,
 			DB_USER: process.env.DB_USER,
@@ -38,7 +38,6 @@ function validateEnv(): Env {
 			BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
 			BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
 		})
-		return env
 	} catch (error) {
 		if (error instanceof ZodError) {
 			const issues = error.issues
